@@ -56,3 +56,58 @@ resource "aws_route_table_association" "private_subnet_asso" {
   subnet_id      = element(aws_subnet.private_subnets[*].id, count.index)
   route_table_id = aws_route_table.private_rt.id
 }
+resource "aws_security_group" "app_sg" {
+  name_prefix = "app_sg"
+  vpc_id      = aws_vpc.main.id
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    from_port   = var.app_port
+    to_port     = var.app_port
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    from_port   = var.mysql_port
+    to_port     = var.mysql_port
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  tags = {
+    Name = "assignment_4"
+  }
+}
+resource "aws_instance" "my_instance" {
+  ami           = "var.ami_id" # Use the customized AMI ID here
+  instance_type = "t2.micro"
+  vpc_security_group_ids = [
+    aws_security_group.app_sg.id
+  ]
+  subnet_id               = aws_subnet.public_subnets[0].id
+  key_name                = var.key_name
+  disable_api_termination = false
+  root_block_device {
+    volume_size = 50
+    volume_type = "gp2"
+    tags = {
+      Name = "My EC2 Instance"
+    }
+  }
+}
+
