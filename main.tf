@@ -94,14 +94,14 @@ resource "aws_security_group" "app_sg" {
   }
 }
 resource "aws_instance" "my_instance" {
-  ami           = "var.ami_id" # Use the customized AMI ID here
+  ami           = var.ami_id # Use the customized AMI ID here
   instance_type = "t2.micro"
   vpc_security_group_ids = [
     aws_security_group.app_sg.id
   ]
-  subnet_id               = aws_subnet.public_subnets[0].id
-  key_name                = var.key_name
-  disable_api_termination = false
+  subnet_id                   = aws_subnet.public_subnets[0].id
+  associate_public_ip_address = true
+  disable_api_termination     = false
   root_block_device {
     volume_size = 50
     volume_type = "gp2"
