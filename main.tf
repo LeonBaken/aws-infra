@@ -61,26 +61,26 @@ resource "aws_route_table_association" "private_subnet_asso" {
   subnet_id      = element(aws_subnet.private_subnets[*].id, count.index)
   route_table_id = aws_route_table.private_rt.id
 }
-resource "aws_iam_role" "EC2-CSYE6225" {
-  name = "EC2-CSYE6225"
-  assume_role_policy = jsonencode({
-    "Version" : "2012-0-17",
-    "Statement" : [{
-      "Action" : [
-        "s3:PutObject",
-        "s3:PutObjectAcl",
-        "s3:GetObject",
-        "s3:GetObjectAcl",
-        "s3:DeleteObject"
-      ],
-      "Effect" : "Allow",
-      "Resource" : [
-        "arn:aws:s3:::${aws_s3_bucket.s3_bucket.bucket}",
-        "arn:aws:s3:::${aws_s3_bucket.s3_bucket.bucket}/*",
-      ]
-    }]
-  })
-}
+# resource "aws_iam_role" "EC2-CSYE6225" {
+#   name = "EC2-CSYE6225"
+#   assume_role_policy = jsonencode({
+#     "Version" : "2012-0-17",
+#     "Statement" : [{
+#       "Action" : [
+#         "s3:PutObject",
+#         "s3:PutObjectAcl",
+#         "s3:GetObject",
+#         "s3:GetObjectAcl",
+#         "s3:DeleteObject"
+#       ],
+#       "Effect" : "Allow",
+#       "Resource" : [
+#         "arn:aws:s3:::${aws_s3_bucket.s3_bucket.bucket}",
+#         "arn:aws:s3:::${aws_s3_bucket.s3_bucket.bucket}/*",
+#       ]
+#     }]
+#   })
+# }
 resource "aws_security_group" "ec2_security_group" {
   vpc_id = aws_vpc.main.id
   ingress {
@@ -134,59 +134,59 @@ resource "aws_instance" "ec2_instance" {
     volume_type = "gp2"
   }
 }
-resource "aws_security_group" "rds_security_group" {
-  vpc_id = aws_vpc.main.id
-  ingress {
-    from_port   = var.mysql_port
-    to_port     = var.mysql_port
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  egress {
-    from_port   = var.mysql_port
-    to_port     = var.mysql_port
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-}
-resource "aws_db_parameter_group" "rds_parameter_group" {
-  family = "mysql8.0"
-}
-resource "aws_db_instance" "rds_instance" {
-  instance_class = "db.t3.micro"
-  vpc_security_group_ids = [
-    aws_security_group.rds_security_group.id
-  ]
-  engine               = "mysql"
-  engine_version       = "8.0"
-  multi_az             = false
-  identifier           = "csye6225"
-  username             = "csye6225"
-  password             = "Me_262A1a"
-  parameter_group_name = "aws_db_parameter_group.rds_parameter_group"
-  db_subnet_group_name = "private_subnet_group"
-  publicly_accessible  = false
-  db_name              = "csye6225"
-}
-resource "aws_s3_bucket" "s3_bucket" {
-  force_destroy = true
-}
-resource "aws_s3_bucket_lifecycle_configuration" "s3_bucket_lifecycle_configuration" {
-  bucket = aws_s3_bucket.s3_bucket.bucket
-  rule {
-    id = "transition_rule"
-    transition {
-      days          = 30
-      storage_class = "STANDARD_IA"
-    }
-    status = "Enabled"
-  }
-}
-resource "aws_s3_bucket_server_side_encryption_configuration" "bucket_encryption" {
-  bucket = aws_s3_bucket.s3_bucket.bucket
-  rule {
-    apply_server_side_encryption_by_default {
-      sse_algorithm = "AES256"
-    }
-  }
-}
+# resource "aws_security_group" "rds_security_group" {
+#   vpc_id = aws_vpc.main.id
+#   ingress {
+#     from_port   = var.mysql_port
+#     to_port     = var.mysql_port
+#     protocol    = "tcp"
+#     cidr_blocks = ["0.0.0.0/0"]
+#   }
+#   egress {
+#     from_port   = var.mysql_port
+#     to_port     = var.mysql_port
+#     protocol    = "tcp"
+#     cidr_blocks = ["0.0.0.0/0"]
+#   }
+# }
+# resource "aws_db_parameter_group" "rds_parameter_group" {
+#   family = "mysql8.0"
+# }
+# resource "aws_db_instance" "rds_instance" {
+#   instance_class = "db.t3.micro"
+#   vpc_security_group_ids = [
+#     aws_security_group.rds_security_group.id
+#   ]
+#   engine               = "mysql"
+#   engine_version       = "8.0"
+#   multi_az             = false
+#   identifier           = "csye6225"
+#   username             = "csye6225"
+#   password             = "Me_262A1a"
+#   parameter_group_name = "aws_db_parameter_group.rds_parameter_group"
+#   db_subnet_group_name = "private_subnet_group"
+#   publicly_accessible  = false
+#   db_name              = "csye6225"
+# }
+# resource "aws_s3_bucket" "s3_bucket" {
+#   force_destroy = true
+# }
+# resource "aws_s3_bucket_lifecycle_configuration" "s3_bucket_lifecycle_configuration" {
+#   bucket = aws_s3_bucket.s3_bucket.bucket
+#   rule {
+#     id = "transition_rule"
+#     transition {
+#       days          = 30
+#       storage_class = "STANDARD_IA"
+#     }
+#     status = "Enabled"
+#   }
+# }
+#resource "aws_s3_bucket_server_side_encryption_configuration" "bucket_encryption" {
+#  bucket = aws_s3_bucket.s3_bucket.bucket
+#  rule {
+#    apply_server_side_encryption_by_default {
+#      sse_algorithm = "AES256"
+#    }
+#  }
+#}
