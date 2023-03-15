@@ -18,13 +18,13 @@ resource "aws_subnet" "private_subnets" {
     Name = "Private Subnet ${count.index + 1}"
   }
 }
-resource "aws_db_subnet_group" "private_subnet_group" {
-  name       = "private_subnet_group"
-  subnet_ids = [aws_subnet.private_subnets[0].id, aws_subnet.private_subnets[1].id, aws_subnet.private_subnets[2].id]
-  tags = {
-    Name = "private subnet group"
-  }
-}
+# resource "aws_db_subnet_group" "private_subnet_group" {
+#   name       = "private_subnet_group"
+#   subnet_ids = [aws_subnet.private_subnets[0].id, aws_subnet.private_subnets[1].id, aws_subnet.private_subnets[2].id]
+#   tags = {
+#     Name = "private subnet group"
+#   }
+# }
 resource "aws_internet_gateway" "gw" {
   vpc_id = aws_vpc.main.id
 
@@ -113,12 +113,12 @@ resource "aws_security_group" "ec2_security_group" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  egress {
-    from_port   = 0
-    to_port     = 65535
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+#   egress {
+#     from_port   = 0
+#     to_port     = 65535
+#     protocol    = "-1"
+#     cidr_blocks = ["0.0.0.0/0"]
+#   }
 }
 resource "aws_instance" "ec2_instance" {
   ami           = var.ami_id # Use the customized AMI ID here
