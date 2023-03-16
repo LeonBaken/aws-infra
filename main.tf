@@ -190,3 +190,15 @@ resource "aws_instance" "ec2_instance" {
 #    }
 #  }
 #}
+data "aws_route53_zone" "junliang" {
+  zone_id = var.route53_zone_id
+  #  name         = var.route53_zone_name
+  #  private_zone = true
+}
+resource "aws_route53_record" "www" {
+  zone_id = data.aws_route53_zone.junliang.zone_id
+  name    = data.aws_route53_zone.junliang.name
+  type    = "A"
+  ttl     = 60
+  records = ["${aws_instance.ec2_instance.public_ip}"]
+}
