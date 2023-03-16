@@ -37,7 +37,7 @@ variable "mysql_port" {
 }
 variable "ami_id" {
   type    = string
-  default = "ami-008d808a5bd19d0f3"
+  default = "ami-0a39fa515fda05169"
 }
 variable "route53_zone_id" {
   type    = string
