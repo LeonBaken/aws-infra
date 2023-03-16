@@ -37,9 +37,17 @@ variable "mysql_port" {
 }
 variable "ami_id" {
   type    = string
-  default = "ami-008d808a5bd19d0f3"
+  default = "ami-0a39fa515fda05169"
 }
-variable "key_name" {
+variable "route53_zone_id" {
   type    = string
-  default = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDbBWPDDbGCl9ApCNF/1iNhqo9M2UXy+VnRsQzfjUBjKdI9NYU4Rvl/Ie3VFUDGo3xUwD0SxH2Sm1VJMhTNGSBDPmctNMlGO50eD6pR1amtuIe12MUaVrPGdmipg9cq8SgGTCiL8uzunMqzcXRdOtizU5jyJRSIDjwvhBYhNv/mcMDGAqXxw7APIL5XoW5aZ0IMcFI8Hh8L+KXHUaCcZkzPLhAhyUKZxUtE6wJdAmeQunbNdwQpJszwPNVrDt9qkA9p/1+5tPi5rKKdYzfgYF/GUEbMt4OtVfLEUGqimkKc5Fn+4YE67T7aDMQ+PoHbIqHpNK+Fj5BHbDvOEcBMpPqmC99Y/E9BSlD40WNmzs6EzIOLVz2GmfxpiM3AA2J2vClY5KWVEdKjtVhM3kQNhmkzbiOkGbV9ha5Pb0rKEiyW/V7PkR40tMIXTCSIzglLEDYOIL/qJkdaIE5ll6EUxEXUDb1hBJ6ym4esjAFyXr/i+MDGRN5GZxyNv6Z73eEKXE0= LiangJunAddress@gmail.com"
+  default = "Z023941623DSGTO0HLNF6"
+}
+variable "route53_zone_name" {
+  type    = string
+  default = "junliang.me."
+}
+variable "route53_name" {
+  type    = string
+  default = "dev.junliang.me"
 }
