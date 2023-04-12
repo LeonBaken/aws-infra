@@ -19,34 +19,57 @@ variable "azs" {
 variable "profile" {
   type = string
 }
+
 variable "region" {
   type = string
   #default = "us-east-1"
 }
+
 variable "cidr" {
   type    = string
   default = "10.0.0.0/16"
 }
+
 variable "app_port" {
   type    = number
   default = 8080
 }
+
 variable "mysql_port" {
   type    = number
   default = 3306
 }
+
 variable "ami_id" {
   type    = string
-  default = "ami-0a39fa515fda05169"
+  default = "ami-088bc798c16ed9002"
 }
+
+variable "rds_db_name" {
+  type    = string
+  default = "cloud_computing"
+}
+
+variable "rds_db_username" {
+  type    = string
+  default = "Jun_Liang"
+}
+
+variable "rds_db_password" {
+  type    = string
+  default = "Me_262A1a"
+}
+
 variable "route53_zone_id" {
   type    = string
   default = "Z023941623DSGTO0HLNF6"
 }
+
 variable "route53_zone_name" {
   type    = string
   default = "junliang.me."
 }
+
 variable "route53_name" {
   type    = string
   default = "dev.junliang.me"
