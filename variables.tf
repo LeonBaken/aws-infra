@@ -42,7 +42,7 @@ variable "mysql_port" {
 
 variable "ami_id" {
   type    = string
-  default = "ami-088bc798c16ed9002"
+  default = "ami-09d9d87f5568a152a"
 }
 
 variable "rds_db_name" {

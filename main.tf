@@ -165,7 +165,7 @@ resource "aws_instance" "ec2_instance" {
     -Ddb_name=${aws_db_instance.rds_instance.db_name} \
     -Ddb_username=${aws_db_instance.rds_instance.username} \
     -Ddb_password=${aws_db_instance.rds_instance.password} \
-    -jar /home/ec2-user/webapp-0.0.1-SNAPSHOT.jar
+    -jar /home/ec2-user/webapp/webapp-0.0.1-SNAPSHOT.jar
   sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl \
     -a fetch-config \
     -m ec2 \
