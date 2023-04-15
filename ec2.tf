@@ -105,6 +105,11 @@ resource "aws_instance" "ec2_instance" {
   user_data = <<EOF
   #!/bin/bash
   sudo echo "bucketName=${aws_s3_bucket.s3_bucket.bucket}" >> /home/ec2-user/webapp/application.properties
+  sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl \
+    -a fetch-config \
+    -m ec2 \
+    -c file:/home/ec2-user/webapp/cloudWatchConfig.json \
+    -s
   sudo java \
     -Dspring.config.location=/home/ec2-user/webapp/application.properties \
     -Ddb_endpoint=${aws_db_instance.rds_instance.endpoint} \
@@ -112,10 +117,5 @@ resource "aws_instance" "ec2_instance" {
     -Ddb_username=${aws_db_instance.rds_instance.username} \
     -Ddb_password=${aws_db_instance.rds_instance.password} \
     -jar /home/ec2-user/webapp/webapp-0.0.1-SNAPSHOT.jar
-  sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl \
-    -a fetch-config \
-    -m ec2 \
-    -c file:/home/ec2-user/webapp/cloudWatchConfig.json \
-    -s
   EOF
 }

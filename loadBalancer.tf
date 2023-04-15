@@ -1,4 +1,4 @@
-resource "aws_security_group" "lb_security_group" {
+resource "aws_security_group" "load_balancer_security_group" {
   vpc_id = aws_vpc.main.id
   ingress {
     from_port   = 80
