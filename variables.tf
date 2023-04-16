@@ -42,7 +42,7 @@ variable "mysql_port" {
 
 variable "ami_id" {
   type    = string
-  default = "ami-0a56314703728250b"
+  default = "ami-02adea5ce11fe70e7"
 }
 
 variable "rds_db_name" {
@@ -62,7 +62,7 @@ variable "rds_db_password" {
 
 variable "route53_zone_id" {
   type    = string
-  default = "Z023941623DSGTO0HLNF6"
+  default = "Z0620062N28LBDA6TUT8"
 }
 
 variable "route53_zone_name" {
@@ -72,5 +72,5 @@ variable "route53_zone_name" {
 
 variable "route53_name" {
   type    = string
-  default = "dev.junliang.me"
+  default = "demo.junliang.me"
 }
