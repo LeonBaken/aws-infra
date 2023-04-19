@@ -62,7 +62,7 @@ variable "rds_db_password" {
 
 variable "route53_zone_id" {
   type    = string
-  default = "Z0620062N28LBDA6TUT8"
+  default = "Z023941623DSGTO0HLNF6"
 }
 
 variable "route53_zone_name" {
