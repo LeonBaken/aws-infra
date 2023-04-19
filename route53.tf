@@ -1,6 +1,6 @@
 resource "aws_route53_record" "route53_record" {
   zone_id = var.route53_zone_id
-  name    = "aws_route53_zone_name"
+  name    = var.route53_name
   type    = "A"
   #  ttl     = 60
   #  records = [aws_instance.ec2_instance.public_ip]

@@ -16,7 +16,7 @@ resource "aws_security_group" "load_balancer_security_group" {
     from_port       = 0
     protocol        = "-1"
     to_port         = 0
-    security_groups = [aws_security_group.ec2_security_group.id]
+    cidr_blocks = ["0.0.0.0/0"]
   }
 }
 
@@ -194,7 +194,7 @@ resource "aws_lb_target_group" "alb_tg" {
 
 resource "aws_lb_listener" "front_end" {
   load_balancer_arn = aws_lb.lb.arn
-  port              = 443
+  port              = 80
   protocol          = "HTTP"
   default_action {
     type             = "forward"

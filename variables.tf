@@ -72,5 +72,5 @@ variable "route53_zone_name" {
 
 variable "route53_name" {
   type    = string
-  default = "demo.junliang.me"
+  default = "dev.junliang.me"
 }
