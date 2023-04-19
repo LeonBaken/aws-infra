@@ -11,7 +11,7 @@ resource "aws_subnet" "public_subnets" {
   vpc_id            = aws_vpc.main.id
   cidr_block        = element(var.public_subnet_cidrs, count.index)
   availability_zone = element(var.azs, count.index)
-  tags              = {
+  tags = {
     Name = "Public Subnet ${count.index + 1}"
   }
 }
@@ -21,7 +21,7 @@ resource "aws_subnet" "private_subnets" {
   vpc_id            = aws_vpc.main.id
   cidr_block        = element(var.private_subnet_cidrs, count.index)
   availability_zone = element(var.azs, count.index)
-  tags              = {
+  tags = {
     Name = "Private Subnet ${count.index + 1}"
   }
 }
@@ -43,7 +43,7 @@ resource "aws_route_table" "public_rt" {
 
 resource "aws_route_table" "private_rt" {
   vpc_id = aws_vpc.main.id
-  tags   = {
+  tags = {
     Name = "Private Route Table"
   }
 }
