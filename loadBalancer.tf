@@ -55,7 +55,7 @@ resource "aws_launch_template" "lt" {
   user_data                            = base64encode(data.template_file.user_data.rendered)
   instance_type                        = "t2.micro"
   image_id                             = var.ami_id
-  key_name                             = var.profile
+  key_name                             = "csye6225"
   disable_api_termination              = false
   instance_initiated_shutdown_behavior = "stop"
   network_interfaces {
@@ -70,14 +70,13 @@ resource "aws_launch_template" "lt" {
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/autoscaling_group
 
 resource "aws_autoscaling_group" "asg" {
-  name                 = "csye6225-asg-spring2023"
-  default_cooldown     = 60
-  launch_configuration = aws_launch_template.lt.arn
-  max_size             = 3
-  min_size             = 1
-  desired_capacity     = 1
-  target_group_arns    = [aws_lb_target_group.alb_tg.arn]
-  vpc_zone_identifier  = [for subnet in aws_subnet.public_subnets : subnet.id]
+  name                = "csye6225-asg-spring2023"
+  default_cooldown    = 60
+  max_size            = 3
+  min_size            = 1
+  desired_capacity    = 1
+  target_group_arns   = [aws_lb_target_group.alb_tg.arn]
+  vpc_zone_identifier = [for subnet in aws_subnet.public_subnets : subnet.id]
   launch_template {
     id = aws_launch_template.lt.id
   }
@@ -165,7 +164,6 @@ resource "aws_lb" "lb" {
   ip_address_type            = "ipv4"
   security_groups            = [aws_security_group.load_balancer_security_group.id]
   subnets                    = [for subnet in aws_subnet.public_subnets : subnet.id]
-  enable_deletion_protection = true
   tags = {
     Application = "WebApp"
   }
