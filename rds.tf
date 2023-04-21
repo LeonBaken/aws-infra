@@ -4,7 +4,7 @@ resource "aws_security_group" "rds_security_group" {
     from_port   = var.mysql_port
     to_port     = var.mysql_port
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    security_groups = [aws_security_group.ec2_security_group.id]
   }
   egress {
     from_port   = var.mysql_port
