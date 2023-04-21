@@ -13,9 +13,9 @@ resource "aws_security_group" "load_balancer_security_group" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   egress {
-    from_port       = 0
-    protocol        = "-1"
-    to_port         = 0
+    from_port   = 0
+    protocol    = "-1"
+    to_port     = 0
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
@@ -64,6 +64,13 @@ resource "aws_launch_template" "lt" {
   }
   iam_instance_profile {
     name = aws_iam_instance_profile.iam_instance_profile.name
+  }
+  block_device_mappings {
+    device_name = "/dev/xvda"
+    ebs {
+      encrypted  = true
+      kms_key_id = aws_kms_key.ebs_key.arn
+    }
   }
 }
 
@@ -134,7 +141,7 @@ resource "aws_cloudwatch_metric_alarm" "cpu_alarm_up" {
   threshold           = 5
   alarm_description   = "ec2 cpu utilization >= 5"
   alarm_actions       = [aws_autoscaling_policy.scale_up_policy.arn]
-  dimensions = {
+  dimensions          = {
     AutoScalingGroupName = aws_autoscaling_group.asg.name
   }
 }
@@ -150,7 +157,7 @@ resource "aws_cloudwatch_metric_alarm" "cpu_alarm_down" {
   threshold           = 3
   alarm_description   = "ec2 cpu utilization <= 3"
   alarm_actions       = [aws_autoscaling_policy.scale_down_policy.arn]
-  dimensions = {
+  dimensions          = {
     AutoScalingGroupName = aws_autoscaling_group.asg.name
   }
 }
@@ -158,13 +165,13 @@ resource "aws_cloudwatch_metric_alarm" "cpu_alarm_down" {
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb
 
 resource "aws_lb" "lb" {
-  name                       = "csye6225-lb"
-  internal                   = false
-  load_balancer_type         = "application"
-  ip_address_type            = "ipv4"
-  security_groups            = [aws_security_group.load_balancer_security_group.id]
-  subnets                    = [for subnet in aws_subnet.public_subnets : subnet.id]
-  tags = {
+  name               = "csye6225-lb"
+  internal           = false
+  load_balancer_type = "application"
+  ip_address_type    = "ipv4"
+  security_groups    = [aws_security_group.load_balancer_security_group.id]
+  subnets            = [for subnet in aws_subnet.public_subnets : subnet.id]
+  tags               = {
     Application = "WebApp"
   }
 }

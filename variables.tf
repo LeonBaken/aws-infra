@@ -13,7 +13,7 @@ variable "private_subnet_cidrs" {
 variable "azs" {
   type        = list(string)
   description = "Availability Zones"
-  #default     = ["us-east-1a", "us-east-1b", "us-east-1c"]
+  default     = ["us-east-1a", "us-east-1b", "us-east-1c"]
 }
 
 variable "profile" {
@@ -62,7 +62,7 @@ variable "rds_db_password" {
 
 variable "route53_zone_id" {
   type    = string
-  default = "Z023941623DSGTO0HLNF6"
+  default = "Z0620062N28LBDA6TUT8"
 }
 
 variable "route53_zone_name" {
@@ -72,5 +72,10 @@ variable "route53_zone_name" {
 
 variable "route53_name" {
   type    = string
-  default = "dev.junliang.me"
+  default = "demo.junliang.me"
+}
+
+variable "aws_account_id" {
+  type = number
+  default = 810882337805
 }
