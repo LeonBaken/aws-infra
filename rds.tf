@@ -41,4 +41,6 @@ resource "aws_db_instance" "rds_instance" {
   publicly_accessible    = false
   db_name                = var.rds_db_name
   skip_final_snapshot    = true
+  storage_encrypted      = true
+  kms_key_id             = aws_kms_key.rds_key.arn
 }
