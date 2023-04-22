@@ -52,6 +52,7 @@ data "template_file" "user_data" {
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/launch_template
 
 resource "aws_launch_template" "lt" {
+  name                                 = "webapp-lt"  #this is used in the yml
   user_data                            = base64encode(data.template_file.user_data.rendered)
   instance_type                        = "t2.micro"
   image_id                             = var.ami_id
