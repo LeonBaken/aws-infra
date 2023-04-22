@@ -76,6 +76,11 @@ variable "route53_name" {
 }
 
 variable "aws_account_id" {
-  type = number
+  type    = number
   default = 810882337805
+}
+
+variable "certificate_arn" {
+  type    = string
+  default = "arn:aws:acm:us-east-1:810882337805:certificate/7acb81df-f8b9-406a-ad25-52feedb3b619"
 }

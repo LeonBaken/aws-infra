@@ -53,35 +53,10 @@ resource "aws_iam_instance_profile" "iam_instance_profile" {
 resource "aws_security_group" "ec2_security_group" {
   vpc_id = aws_vpc.main.id
   ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-    ingress {
-      from_port   = 80
-      to_port     = 80
-      protocol    = "tcp"
-      security_groups = [aws_security_group.load_balancer_security_group.id]
-    }
-    ingress {
-      from_port   = 443
-      to_port     = 443
-      protocol    = "tcp"
-      security_groups = [aws_security_group.load_balancer_security_group.id]
-
-    }
-  ingress {
     from_port   = var.app_port
     to_port     = var.app_port
     protocol    = "tcp"
     security_groups = [aws_security_group.load_balancer_security_group.id]
-  }
-  ingress {
-    from_port   = var.mysql_port
-    to_port     = var.mysql_port
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
   }
   egress {
     from_port   = 0
@@ -90,41 +65,3 @@ resource "aws_security_group" "ec2_security_group" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
-
-#resource "aws_instance" "ec2_instance" {
-#  ami                         = var.ami_id
-#  instance_type               = "t2.micro"
-#  vpc_security_group_ids      = [aws_security_group.ec2_security_group.id]
-#  subnet_id                   = aws_subnet.public_subnets[0].id
-#  iam_instance_profile        = aws_iam_instance_profile.iam_instance_profile.name
-#  associate_public_ip_address = true
-#  disable_api_termination     = false
-#  root_block_device {
-#    volume_size = 50
-#    volume_type = "gp2"
-#  }
-#  user_data = <<EOF
-#  #!/bin/bash
-#  {
-#    echo "[Unit]"
-#    echo "Description=Packer custom AMI builder for Spring Boot"
-#    echo ""
-#    echo "[Service]"
-#    echo "User=ec2-user"
-#    echo "ExecStart=/usr/bin/java -Dspring.config.location=/home/ec2-user/webapp/application.properties -Ddb_endpoint=${aws_db_instance.rds_instance.endpoint} -Ddb_name=${aws_db_instance.rds_instance.db_name} -Ddb_username=${aws_db_instance.rds_instance.username} -Ddb_password=${aws_db_instance.rds_instance.password} -jar /home/ec2-user/webapp/webapp-0.0.1-SNAPSHOT.jar"
-#    echo ""
-#    echo "[Install]"
-#    echo "WantedBy=multi-user.target"
-#  } >>/home/ec2-user/webapp/application.service
-#  sudo echo "bucketName=${aws_s3_bucket.s3_bucket.bucket}" >> /home/ec2-user/webapp/application.properties
-#  sudo mv home/ec2-user/webapp/application.service /etc/systemd/system/application.service
-#  sudo systemctl daemon-reload
-#  sudo systemctl enable application.service
-#  sudo systemctl start application.service
-#  sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl \
-#    -a fetch-config \
-#    -m ec2 \
-#    -c file:/home/ec2-user/webapp/cloudWatchConfig.json \
-#    -s
-#  EOF
-#}

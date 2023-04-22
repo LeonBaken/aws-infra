@@ -52,6 +52,7 @@ data "template_file" "user_data" {
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/launch_template
 
 resource "aws_launch_template" "lt" {
+  name                                 = "webapp-lt"  #this is used in the yml
   user_data                            = base64encode(data.template_file.user_data.rendered)
   instance_type                        = "t2.micro"
   image_id                             = var.ami_id
@@ -201,10 +202,11 @@ resource "aws_lb_target_group" "alb_tg" {
 
 resource "aws_lb_listener" "front_end" {
   load_balancer_arn = aws_lb.lb.arn
-  port              = 80
-  protocol          = "HTTP"
+  port              = 443
+  protocol          = "HTTPS"
   default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.alb_tg.arn
   }
+  certificate_arn = var.certificate_arn
 }
